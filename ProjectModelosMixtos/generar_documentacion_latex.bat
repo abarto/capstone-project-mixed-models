@@ -1,0 +1,2 @@
+@echo off
+pasdoc.exe --graphviz-uses --graphviz-classes --source generar_documentacion.lst --output documentacion_latex\ --staronly --visible-members private,protected,public,published --write-uses-list --format latex

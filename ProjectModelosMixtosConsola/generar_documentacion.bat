@@ -1,0 +1,2 @@
+@echo off
+pasdoc.exe --link-gv-uses jpg --link-gv-classes jpg --graphviz-uses --graphviz-classes --source generar_documentacion.lst --output documentacion\ --staronly --visible-members private,protected,public,published --write-uses-list

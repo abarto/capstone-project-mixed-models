@@ -1,0 +1,2171 @@
+
+state 0:
+
+	$accept : _ configuracion $end
+
+	T_DATOS	shift 3
+	.	error
+
+	configuracion	goto 1
+	datos	goto 2
+
+state 1:
+
+	$accept : configuracion _ $end
+
+	$end	accept
+	.	error
+
+state 2:
+
+	configuracion : datos _ $$1 modelo $$2 procedimiento
+	$$1 : _	(1)
+
+	.	reduce 1
+
+	$$1	goto 4
+
+state 3:
+
+	datos : T_DATOS _ T_LITERAL_CADENAS T_LLAVE_APERTURA columnas valores T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+
+	T_LITERAL_CADENAS	shift 5
+	.	error
+
+state 4:
+
+	configuracion : datos $$1 _ modelo $$2 procedimiento
+
+	T_MODELO	shift 7
+	.	error
+
+	modelo	goto 6
+
+state 5:
+
+	datos : T_DATOS T_LITERAL_CADENAS _ T_LLAVE_APERTURA columnas valores T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+
+	T_LLAVE_APERTURA	shift 8
+	.	error
+
+state 6:
+
+	configuracion : datos $$1 modelo _ $$2 procedimiento
+	$$2 : _	(2)
+
+	.	reduce 2
+
+	$$2	goto 9
+
+state 7:
+
+	modelo : T_MODELO _ T_LITERAL_CADENAS T_LLAVE_APERTURA variables_clasificacion variable_dependiente efectos_fijos efectos_aleatorios lista_opciones_modelo T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+
+	T_LITERAL_CADENAS	shift 10
+	.	error
+
+state 8:
+
+	datos : T_DATOS T_LITERAL_CADENAS T_LLAVE_APERTURA _ columnas valores T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+
+	T_COLUMNAS	shift 12
+	.	error
+
+	columnas	goto 11
+
+state 9:
+
+	configuracion : datos $$1 modelo $$2 _ procedimiento
+
+	T_PROCEDIMIENTO	shift 14
+	.	error
+
+	procedimiento	goto 13
+
+state 10:
+
+	modelo : T_MODELO T_LITERAL_CADENAS _ T_LLAVE_APERTURA variables_clasificacion variable_dependiente efectos_fijos efectos_aleatorios lista_opciones_modelo T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+
+	T_LLAVE_APERTURA	shift 15
+	.	error
+
+state 11:
+
+	datos : T_DATOS T_LITERAL_CADENAS T_LLAVE_APERTURA columnas _ valores T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+
+	T_VALORES	shift 17
+	.	error
+
+	valores	goto 16
+
+state 12:
+
+	columnas : T_COLUMNAS _ lista_columnas T_PUNTO_Y_COMA
+
+	T_IDENTIFICADOR	shift 20
+	.	error
+
+	columna	goto 18
+	lista_columnas	goto 19
+
+state 13:
+
+	configuracion : datos $$1 modelo $$2 procedimiento _	(3)
+
+	.	reduce 3
+
+state 14:
+
+	procedimiento : T_PROCEDIMIENTO _ T_LLAVE_APERTURA lista_opciones_procedimiento T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+
+	T_LLAVE_APERTURA	shift 21
+	.	error
+
+state 15:
+
+	modelo : T_MODELO T_LITERAL_CADENAS T_LLAVE_APERTURA _ variables_clasificacion variable_dependiente efectos_fijos efectos_aleatorios lista_opciones_modelo T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+	variables_clasificacion : _	(23)
+
+	T_VARIABLES_CLASIFICACION	shift 23
+	T_VARIABLE_DEPENDIENTE	reduce 23
+	.	error
+
+	variables_clasificacion	goto 22
+
+state 16:
+
+	datos : T_DATOS T_LITERAL_CADENAS T_LLAVE_APERTURA columnas valores _ T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+
+	T_LLAVE_CLAUSURA	shift 24
+	.	error
+
+state 17:
+
+	valores : T_VALORES _ T_LLAVE_APERTURA $$3 lista_filas_valores $$4 T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+
+	T_LLAVE_APERTURA	shift 25
+	.	error
+
+state 18:
+
+	lista_columnas : columna _	(7)
+
+	.	reduce 7
+
+state 19:
+
+	columnas : T_COLUMNAS lista_columnas _ T_PUNTO_Y_COMA
+	lista_columnas : lista_columnas _ columna
+
+	T_PUNTO_Y_COMA	shift 27
+	T_IDENTIFICADOR	shift 20
+	.	error
+
+	columna	goto 26
+
+state 20:
+
+	columna : T_IDENTIFICADOR _ T_DOS_PUNTOS tipo_columna
+
+	T_DOS_PUNTOS	shift 28
+	.	error
+
+state 21:
+
+	procedimiento : T_PROCEDIMIENTO T_LLAVE_APERTURA _ lista_opciones_procedimiento T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+	lista_opciones_procedimiento : _	(100)
+
+	.	reduce 100
+
+	lista_opciones_procedimiento	goto 29
+
+state 22:
+
+	modelo : T_MODELO T_LITERAL_CADENAS T_LLAVE_APERTURA variables_clasificacion _ variable_dependiente efectos_fijos efectos_aleatorios lista_opciones_modelo T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+
+	T_VARIABLE_DEPENDIENTE	shift 31
+	.	error
+
+	variable_dependiente	goto 30
+
+state 23:
+
+	variables_clasificacion : T_VARIABLES_CLASIFICACION _ lista_identificadores T_PUNTO_Y_COMA
+
+	T_IDENTIFICADOR	shift 33
+	.	error
+
+	lista_identificadores	goto 32
+
+state 24:
+
+	datos : T_DATOS T_LITERAL_CADENAS T_LLAVE_APERTURA columnas valores T_LLAVE_CLAUSURA _ T_PUNTO_Y_COMA
+
+	T_PUNTO_Y_COMA	shift 34
+	.	error
+
+state 25:
+
+	valores : T_VALORES T_LLAVE_APERTURA _ $$3 lista_filas_valores $$4 T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+	$$3 : _	(12)
+
+	.	reduce 12
+
+	$$3	goto 35
+
+state 26:
+
+	lista_columnas : lista_columnas columna _	(6)
+
+	.	reduce 6
+
+state 27:
+
+	columnas : T_COLUMNAS lista_columnas T_PUNTO_Y_COMA _	(5)
+
+	.	reduce 5
+
+state 28:
+
+	columna : T_IDENTIFICADOR T_DOS_PUNTOS _ tipo_columna
+
+	T_CATEGORICOS	shift 37
+	T_ENTEROS	shift 38
+	T_REALES	shift 39
+	.	error
+
+	tipo_columna	goto 36
+
+state 29:
+
+	procedimiento : T_PROCEDIMIENTO T_LLAVE_APERTURA lista_opciones_procedimiento _ T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+	lista_opciones_procedimiento : lista_opciones_procedimiento _ opcion_procedimiento
+
+	T_LLAVE_CLAUSURA	shift 41
+	T_OPCION	shift 42
+	.	error
+
+	opcion_procedimiento	goto 40
+
+state 30:
+
+	modelo : T_MODELO T_LITERAL_CADENAS T_LLAVE_APERTURA variables_clasificacion variable_dependiente _ efectos_fijos efectos_aleatorios lista_opciones_modelo T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+	efectos_fijos : _	(31)
+
+	T_EFECTOS_FIJOS	shift 44
+	T_LLAVE_CLAUSURA	reduce 31
+	T_OPCION	reduce 31
+	T_EFECTOS_ALEATORIOS	reduce 31
+	.	error
+
+	efectos_fijos	goto 43
+
+state 31:
+
+	variable_dependiente : T_VARIABLE_DEPENDIENTE _ T_IDENTIFICADOR T_PUNTO_Y_COMA
+
+	T_IDENTIFICADOR	shift 45
+	.	error
+
+state 32:
+
+	variables_clasificacion : T_VARIABLES_CLASIFICACION lista_identificadores _ T_PUNTO_Y_COMA
+	lista_identificadores : lista_identificadores _ T_IDENTIFICADOR
+
+	T_PUNTO_Y_COMA	shift 46
+	T_IDENTIFICADOR	shift 47
+	.	error
+
+state 33:
+
+	lista_identificadores : T_IDENTIFICADOR _	(26)
+
+	.	reduce 26
+
+state 34:
+
+	datos : T_DATOS T_LITERAL_CADENAS T_LLAVE_APERTURA columnas valores T_LLAVE_CLAUSURA T_PUNTO_Y_COMA _	(4)
+
+	.	reduce 4
+
+state 35:
+
+	valores : T_VALORES T_LLAVE_APERTURA $$3 _ lista_filas_valores $$4 T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+
+	T_ENTERO	shift 51
+	T_REAL	shift 52
+	T_IDENTIFICADOR	shift 53
+	.	error
+
+	fila_valores	goto 48
+	lista_filas_valores	goto 49
+	valor	goto 50
+
+state 36:
+
+	columna : T_IDENTIFICADOR T_DOS_PUNTOS tipo_columna _	(8)
+
+	.	reduce 8
+
+state 37:
+
+	tipo_columna : T_CATEGORICOS _	(9)
+
+	.	reduce 9
+
+state 38:
+
+	tipo_columna : T_ENTEROS _	(10)
+
+	.	reduce 10
+
+state 39:
+
+	tipo_columna : T_REALES _	(11)
+
+	.	reduce 11
+
+state 40:
+
+	lista_opciones_procedimiento : lista_opciones_procedimiento opcion_procedimiento _	(101)
+
+	.	reduce 101
+
+state 41:
+
+	procedimiento : T_PROCEDIMIENTO T_LLAVE_APERTURA lista_opciones_procedimiento T_LLAVE_CLAUSURA _ T_PUNTO_Y_COMA
+
+	T_PUNTO_Y_COMA	shift 54
+	.	error
+
+state 42:
+
+	opcion_procedimiento : T_OPCION _ opcion_procedimiento1 T_PUNTO_Y_COMA
+
+	T_METODO	shift 56
+	T_VALOR_INICIAL_PARAMETROS	shift 57
+	T_FUENTE_VALORES_INICIALES_PARAMETROS	shift 58
+	T_CRITERIO_CONVERGENCIA	shift 59
+	T_TOLERANCIA_CONVERGENCIA	shift 60
+	T_CANTIDAD_PASOS_SCORING	shift 61
+	T_COTA_INFERIOR_PARAMETROS	shift 62
+	T_COTA_SUPERIOR_PARAMETROS	shift 63
+	T_PASO_GRILLA_PARAMETROS	shift 64
+	T_VERIFICAR_COTA_INFERIOR_PARAMETROS	shift 65
+	T_VERIFICAR_COTA_SUPERIOR_PARAMETROS	shift 66
+	T_CANTIDAD_MAXIMA_ITERACIONES	shift 67
+	T_CANTIDAD_MAXIMA_EVALUACIONES_FUNCION_OBJETIVO	shift 68
+	T_TOLERANCIA_SINGULARIDAD	shift 69
+	T_TOLERANCIA_CHOLEKSY	shift 70
+	T_VALOR_INICIAL_FACTOR_RIDGING	shift 71
+	T_FACTOR_INCREMENTO_FACTOR_RIDGING	shift 72
+	T_FACTOR_DECREMENTO_FACTOR_RIDGING	shift 73
+	T_VALOR_MINIMO_FACTOR_RIDGING	shift 74
+	T_VALOR_MAXIMO_FACTOR_RIDGING	shift 75
+	T_SALIDA	shift 76
+	T_ARCHIVO_SALIDA	shift 77
+	T_GENERAR_SALIDA_COMPACTA	shift 78
+	T_MOSTRAR_SALIDA_CONSOLA	shift 79
+	T_ARCHIVO_RESUMEN_VEROSIMILITUD	shift 80
+	T_ARCHIVO_RESUMEN_BETA	shift 81
+	T_ARCHIVO_RESUMEN_THETA	shift 82
+	T_ARCHIVO_RESUMEN_ITERACION	shift 83
+	.	error
+
+	opcion_procedimiento1	goto 55
+
+state 43:
+
+	modelo : T_MODELO T_LITERAL_CADENAS T_LLAVE_APERTURA variables_clasificacion variable_dependiente efectos_fijos _ efectos_aleatorios lista_opciones_modelo T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+	efectos_aleatorios : _	(50)
+
+	T_EFECTOS_ALEATORIOS	shift 85
+	T_LLAVE_CLAUSURA	reduce 50
+	T_OPCION	reduce 50
+	.	error
+
+	efectos_aleatorios	goto 84
+
+state 44:
+
+	efectos_fijos : T_EFECTOS_FIJOS _ T_LLAVE_APERTURA efectos lista_opciones_efectos_fijos T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+
+	T_LLAVE_APERTURA	shift 86
+	.	error
+
+state 45:
+
+	variable_dependiente : T_VARIABLE_DEPENDIENTE T_IDENTIFICADOR _ T_PUNTO_Y_COMA
+
+	T_PUNTO_Y_COMA	shift 87
+	.	error
+
+state 46:
+
+	variables_clasificacion : T_VARIABLES_CLASIFICACION lista_identificadores T_PUNTO_Y_COMA _	(24)
+
+	.	reduce 24
+
+state 47:
+
+	lista_identificadores : lista_identificadores T_IDENTIFICADOR _	(25)
+
+	.	reduce 25
+
+state 48:
+
+	lista_filas_valores : fila_valores _ T_PUNTO_Y_COMA
+	fila_valores : fila_valores _ valor
+
+	T_PUNTO_Y_COMA	shift 89
+	T_ENTERO	shift 51
+	T_REAL	shift 52
+	T_IDENTIFICADOR	shift 53
+	.	error
+
+	valor	goto 88
+
+state 49:
+
+	valores : T_VALORES T_LLAVE_APERTURA $$3 lista_filas_valores _ $$4 T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+	lista_filas_valores : lista_filas_valores _ fila_valores T_PUNTO_Y_COMA
+	$$4 : _	(13)
+
+	T_ENTERO	shift 51
+	T_REAL	shift 52
+	T_IDENTIFICADOR	shift 53
+	T_LLAVE_CLAUSURA	reduce 13
+	.	error
+
+	fila_valores	goto 90
+	$$4	goto 91
+	valor	goto 50
+
+state 50:
+
+	fila_valores : valor _	(18)
+
+	.	reduce 18
+
+state 51:
+
+	valor : T_ENTERO _	(20)
+
+	.	reduce 20
+
+state 52:
+
+	valor : T_REAL _	(21)
+
+	.	reduce 21
+
+state 53:
+
+	valor : T_IDENTIFICADOR _	(19)
+
+	.	reduce 19
+
+state 54:
+
+	procedimiento : T_PROCEDIMIENTO T_LLAVE_APERTURA lista_opciones_procedimiento T_LLAVE_CLAUSURA T_PUNTO_Y_COMA _	(99)
+
+	.	reduce 99
+
+state 55:
+
+	opcion_procedimiento : T_OPCION opcion_procedimiento1 _ T_PUNTO_Y_COMA
+
+	T_PUNTO_Y_COMA	shift 92
+	.	error
+
+state 56:
+
+	opcion_procedimiento1 : T_METODO _ opcion_procedimiento1_metodo
+
+	T_MIVQUE0	shift 94
+	T_ML	shift 95
+	T_REML	shift 96
+	T_GRILLA_BUSQUEDA_ML	shift 97
+	T_GRILLA_BUSQUEDA_REML	shift 98
+	T_DEPURACION	shift 99
+	.	error
+
+	opcion_procedimiento1_metodo	goto 93
+
+state 57:
+
+	opcion_procedimiento1 : T_VALOR_INICIAL_PARAMETROS _ numero
+
+	T_ENTERO	shift 101
+	T_REAL	shift 102
+	.	error
+
+	numero	goto 100
+
+state 58:
+
+	opcion_procedimiento1 : T_FUENTE_VALORES_INICIALES_PARAMETROS _ opcion_procedimiento1_fuente
+
+	T_MIVQUE0	shift 104
+	T_GRILLA_BUSQUEDA_ML	shift 105
+	T_GRILLA_BUSQUEDA_REML	shift 106
+	T_VALORES_POR_DEFECTO	shift 107
+	T_VALORES_CONFIGURACION	shift 108
+	.	error
+
+	opcion_procedimiento1_fuente	goto 103
+
+state 59:
+
+	opcion_procedimiento1 : T_CRITERIO_CONVERGENCIA _ opcion_procedimiento1_criterio_convergencia
+
+	T_CONVERGENCIA_PARAMETROS_ABSOLUTA	shift 110
+	T_CONVERGENCIA_PARAMETROS_RELATIVA	shift 111
+	T_CONVERGENCIA_VEROSIMILITUD_ABSOLUTA	shift 112
+	T_CONVERGENCIA_VEROSIMILITUD_RELATIVA	shift 113
+	T_CONVERGENCIA_GRADIENTE_ABSOLUTA	shift 114
+	T_CONVERGENCIA_GRADIENTE_RELATIVA	shift 115
+	T_CONVERGENCIA_HESSIANO_ABSOLUTA	shift 116
+	T_CONVERGENCIA_HESSIANO_RELATIVA	shift 117
+	.	error
+
+	opcion_procedimiento1_criterio_convergencia	goto 109
+
+state 60:
+
+	opcion_procedimiento1 : T_TOLERANCIA_CONVERGENCIA _ numero
+
+	T_ENTERO	shift 101
+	T_REAL	shift 102
+	.	error
+
+	numero	goto 118
+
+state 61:
+
+	opcion_procedimiento1 : T_CANTIDAD_PASOS_SCORING _ T_ENTERO
+
+	T_ENTERO	shift 119
+	.	error
+
+state 62:
+
+	opcion_procedimiento1 : T_COTA_INFERIOR_PARAMETROS _ numero
+
+	T_ENTERO	shift 101
+	T_REAL	shift 102
+	.	error
+
+	numero	goto 120
+
+state 63:
+
+	opcion_procedimiento1 : T_COTA_SUPERIOR_PARAMETROS _ numero
+
+	T_ENTERO	shift 101
+	T_REAL	shift 102
+	.	error
+
+	numero	goto 121
+
+state 64:
+
+	opcion_procedimiento1 : T_PASO_GRILLA_PARAMETROS _ numero
+
+	T_ENTERO	shift 101
+	T_REAL	shift 102
+	.	error
+
+	numero	goto 122
+
+state 65:
+
+	opcion_procedimiento1 : T_VERIFICAR_COTA_INFERIOR_PARAMETROS _ T_BOOLEAN
+
+	T_BOOLEAN	shift 123
+	.	error
+
+state 66:
+
+	opcion_procedimiento1 : T_VERIFICAR_COTA_SUPERIOR_PARAMETROS _ T_BOOLEAN
+
+	T_BOOLEAN	shift 124
+	.	error
+
+state 67:
+
+	opcion_procedimiento1 : T_CANTIDAD_MAXIMA_ITERACIONES _ T_ENTERO
+
+	T_ENTERO	shift 125
+	.	error
+
+state 68:
+
+	opcion_procedimiento1 : T_CANTIDAD_MAXIMA_EVALUACIONES_FUNCION_OBJETIVO _ T_ENTERO
+
+	T_ENTERO	shift 126
+	.	error
+
+state 69:
+
+	opcion_procedimiento1 : T_TOLERANCIA_SINGULARIDAD _ numero
+
+	T_ENTERO	shift 101
+	T_REAL	shift 102
+	.	error
+
+	numero	goto 127
+
+state 70:
+
+	opcion_procedimiento1 : T_TOLERANCIA_CHOLEKSY _ numero
+
+	T_ENTERO	shift 101
+	T_REAL	shift 102
+	.	error
+
+	numero	goto 128
+
+state 71:
+
+	opcion_procedimiento1 : T_VALOR_INICIAL_FACTOR_RIDGING _ numero
+
+	T_ENTERO	shift 101
+	T_REAL	shift 102
+	.	error
+
+	numero	goto 129
+
+state 72:
+
+	opcion_procedimiento1 : T_FACTOR_INCREMENTO_FACTOR_RIDGING _ numero
+
+	T_ENTERO	shift 101
+	T_REAL	shift 102
+	.	error
+
+	numero	goto 130
+
+state 73:
+
+	opcion_procedimiento1 : T_FACTOR_DECREMENTO_FACTOR_RIDGING _ numero
+
+	T_ENTERO	shift 101
+	T_REAL	shift 102
+	.	error
+
+	numero	goto 131
+
+state 74:
+
+	opcion_procedimiento1 : T_VALOR_MINIMO_FACTOR_RIDGING _ numero
+
+	T_ENTERO	shift 101
+	T_REAL	shift 102
+	.	error
+
+	numero	goto 132
+
+state 75:
+
+	opcion_procedimiento1 : T_VALOR_MAXIMO_FACTOR_RIDGING _ numero
+
+	T_ENTERO	shift 101
+	T_REAL	shift 102
+	.	error
+
+	numero	goto 133
+
+state 76:
+
+	opcion_procedimiento1 : T_SALIDA _ arreglo_identificadores
+
+	T_CORCHETE_APERTURA	shift 135
+	.	error
+
+	arreglo_identificadores	goto 134
+
+state 77:
+
+	opcion_procedimiento1 : T_ARCHIVO_SALIDA _ T_LITERAL_CADENAS
+
+	T_LITERAL_CADENAS	shift 136
+	.	error
+
+state 78:
+
+	opcion_procedimiento1 : T_GENERAR_SALIDA_COMPACTA _ T_BOOLEAN
+
+	T_BOOLEAN	shift 137
+	.	error
+
+state 79:
+
+	opcion_procedimiento1 : T_MOSTRAR_SALIDA_CONSOLA _ T_BOOLEAN
+
+	T_BOOLEAN	shift 138
+	.	error
+
+state 80:
+
+	opcion_procedimiento1 : T_ARCHIVO_RESUMEN_VEROSIMILITUD _ T_LITERAL_CADENAS
+
+	T_LITERAL_CADENAS	shift 139
+	.	error
+
+state 81:
+
+	opcion_procedimiento1 : T_ARCHIVO_RESUMEN_BETA _ T_LITERAL_CADENAS
+
+	T_LITERAL_CADENAS	shift 140
+	.	error
+
+state 82:
+
+	opcion_procedimiento1 : T_ARCHIVO_RESUMEN_THETA _ T_LITERAL_CADENAS
+
+	T_LITERAL_CADENAS	shift 141
+	.	error
+
+state 83:
+
+	opcion_procedimiento1 : T_ARCHIVO_RESUMEN_ITERACION _ T_LITERAL_CADENAS
+
+	T_LITERAL_CADENAS	shift 142
+	.	error
+
+state 84:
+
+	modelo : T_MODELO T_LITERAL_CADENAS T_LLAVE_APERTURA variables_clasificacion variable_dependiente efectos_fijos efectos_aleatorios _ lista_opciones_modelo T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+	lista_opciones_modelo : _	(95)
+
+	.	reduce 95
+
+	lista_opciones_modelo	goto 143
+
+state 85:
+
+	efectos_aleatorios : T_EFECTOS_ALEATORIOS _ T_LLAVE_APERTURA lista_grupos_efectos_aleatorios efectos lista_opciones_efectos_aleatorios error1 T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+
+	T_LLAVE_APERTURA	shift 144
+	.	error
+
+state 86:
+
+	efectos_fijos : T_EFECTOS_FIJOS T_LLAVE_APERTURA _ efectos lista_opciones_efectos_fijos T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+	efectos : _	(33)
+
+	T_EFECTOS	shift 146
+	T_LLAVE_CLAUSURA	reduce 33
+	T_OPCION	reduce 33
+	.	error
+
+	efectos	goto 145
+
+state 87:
+
+	variable_dependiente : T_VARIABLE_DEPENDIENTE T_IDENTIFICADOR T_PUNTO_Y_COMA _	(30)
+
+	.	reduce 30
+
+state 88:
+
+	fila_valores : fila_valores valor _	(17)
+
+	.	reduce 17
+
+state 89:
+
+	lista_filas_valores : fila_valores T_PUNTO_Y_COMA _	(16)
+
+	.	reduce 16
+
+state 90:
+
+	lista_filas_valores : lista_filas_valores fila_valores _ T_PUNTO_Y_COMA
+	fila_valores : fila_valores _ valor
+
+	T_PUNTO_Y_COMA	shift 147
+	T_ENTERO	shift 51
+	T_REAL	shift 52
+	T_IDENTIFICADOR	shift 53
+	.	error
+
+	valor	goto 88
+
+state 91:
+
+	valores : T_VALORES T_LLAVE_APERTURA $$3 lista_filas_valores $$4 _ T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+
+	T_LLAVE_CLAUSURA	shift 148
+	.	error
+
+state 92:
+
+	opcion_procedimiento : T_OPCION opcion_procedimiento1 T_PUNTO_Y_COMA _	(102)
+
+	.	reduce 102
+
+state 93:
+
+	opcion_procedimiento1 : T_METODO opcion_procedimiento1_metodo _	(103)
+
+	.	reduce 103
+
+state 94:
+
+	opcion_procedimiento1_metodo : T_MIVQUE0 _	(133)
+
+	.	reduce 133
+
+state 95:
+
+	opcion_procedimiento1_metodo : T_ML _	(131)
+
+	.	reduce 131
+
+state 96:
+
+	opcion_procedimiento1_metodo : T_REML _	(132)
+
+	.	reduce 132
+
+state 97:
+
+	opcion_procedimiento1_metodo : T_GRILLA_BUSQUEDA_ML _	(134)
+
+	.	reduce 134
+
+state 98:
+
+	opcion_procedimiento1_metodo : T_GRILLA_BUSQUEDA_REML _	(135)
+
+	.	reduce 135
+
+state 99:
+
+	opcion_procedimiento1_metodo : T_DEPURACION _	(136)
+
+	.	reduce 136
+
+state 100:
+
+	opcion_procedimiento1 : T_VALOR_INICIAL_PARAMETROS numero _	(104)
+
+	.	reduce 104
+
+state 101:
+
+	numero : T_ENTERO _	(150)
+
+	.	reduce 150
+
+state 102:
+
+	numero : T_REAL _	(151)
+
+	.	reduce 151
+
+state 103:
+
+	opcion_procedimiento1 : T_FUENTE_VALORES_INICIALES_PARAMETROS opcion_procedimiento1_fuente _	(105)
+
+	.	reduce 105
+
+state 104:
+
+	opcion_procedimiento1_fuente : T_MIVQUE0 _	(139)
+
+	.	reduce 139
+
+state 105:
+
+	opcion_procedimiento1_fuente : T_GRILLA_BUSQUEDA_ML _	(140)
+
+	.	reduce 140
+
+state 106:
+
+	opcion_procedimiento1_fuente : T_GRILLA_BUSQUEDA_REML _	(141)
+
+	.	reduce 141
+
+state 107:
+
+	opcion_procedimiento1_fuente : T_VALORES_POR_DEFECTO _	(137)
+
+	.	reduce 137
+
+state 108:
+
+	opcion_procedimiento1_fuente : T_VALORES_CONFIGURACION _	(138)
+
+	.	reduce 138
+
+state 109:
+
+	opcion_procedimiento1 : T_CRITERIO_CONVERGENCIA opcion_procedimiento1_criterio_convergencia _	(106)
+
+	.	reduce 106
+
+state 110:
+
+	opcion_procedimiento1_criterio_convergencia : T_CONVERGENCIA_PARAMETROS_ABSOLUTA _	(142)
+
+	.	reduce 142
+
+state 111:
+
+	opcion_procedimiento1_criterio_convergencia : T_CONVERGENCIA_PARAMETROS_RELATIVA _	(143)
+
+	.	reduce 143
+
+state 112:
+
+	opcion_procedimiento1_criterio_convergencia : T_CONVERGENCIA_VEROSIMILITUD_ABSOLUTA _	(144)
+
+	.	reduce 144
+
+state 113:
+
+	opcion_procedimiento1_criterio_convergencia : T_CONVERGENCIA_VEROSIMILITUD_RELATIVA _	(145)
+
+	.	reduce 145
+
+state 114:
+
+	opcion_procedimiento1_criterio_convergencia : T_CONVERGENCIA_GRADIENTE_ABSOLUTA _	(146)
+
+	.	reduce 146
+
+state 115:
+
+	opcion_procedimiento1_criterio_convergencia : T_CONVERGENCIA_GRADIENTE_RELATIVA _	(147)
+
+	.	reduce 147
+
+state 116:
+
+	opcion_procedimiento1_criterio_convergencia : T_CONVERGENCIA_HESSIANO_ABSOLUTA _	(148)
+
+	.	reduce 148
+
+state 117:
+
+	opcion_procedimiento1_criterio_convergencia : T_CONVERGENCIA_HESSIANO_RELATIVA _	(149)
+
+	.	reduce 149
+
+state 118:
+
+	opcion_procedimiento1 : T_TOLERANCIA_CONVERGENCIA numero _	(107)
+
+	.	reduce 107
+
+state 119:
+
+	opcion_procedimiento1 : T_CANTIDAD_PASOS_SCORING T_ENTERO _	(108)
+
+	.	reduce 108
+
+state 120:
+
+	opcion_procedimiento1 : T_COTA_INFERIOR_PARAMETROS numero _	(109)
+
+	.	reduce 109
+
+state 121:
+
+	opcion_procedimiento1 : T_COTA_SUPERIOR_PARAMETROS numero _	(110)
+
+	.	reduce 110
+
+state 122:
+
+	opcion_procedimiento1 : T_PASO_GRILLA_PARAMETROS numero _	(111)
+
+	.	reduce 111
+
+state 123:
+
+	opcion_procedimiento1 : T_VERIFICAR_COTA_INFERIOR_PARAMETROS T_BOOLEAN _	(112)
+
+	.	reduce 112
+
+state 124:
+
+	opcion_procedimiento1 : T_VERIFICAR_COTA_SUPERIOR_PARAMETROS T_BOOLEAN _	(113)
+
+	.	reduce 113
+
+state 125:
+
+	opcion_procedimiento1 : T_CANTIDAD_MAXIMA_ITERACIONES T_ENTERO _	(114)
+
+	.	reduce 114
+
+state 126:
+
+	opcion_procedimiento1 : T_CANTIDAD_MAXIMA_EVALUACIONES_FUNCION_OBJETIVO T_ENTERO _	(115)
+
+	.	reduce 115
+
+state 127:
+
+	opcion_procedimiento1 : T_TOLERANCIA_SINGULARIDAD numero _	(116)
+
+	.	reduce 116
+
+state 128:
+
+	opcion_procedimiento1 : T_TOLERANCIA_CHOLEKSY numero _	(117)
+
+	.	reduce 117
+
+state 129:
+
+	opcion_procedimiento1 : T_VALOR_INICIAL_FACTOR_RIDGING numero _	(118)
+
+	.	reduce 118
+
+state 130:
+
+	opcion_procedimiento1 : T_FACTOR_INCREMENTO_FACTOR_RIDGING numero _	(119)
+
+	.	reduce 119
+
+state 131:
+
+	opcion_procedimiento1 : T_FACTOR_DECREMENTO_FACTOR_RIDGING numero _	(120)
+
+	.	reduce 120
+
+state 132:
+
+	opcion_procedimiento1 : T_VALOR_MINIMO_FACTOR_RIDGING numero _	(121)
+
+	.	reduce 121
+
+state 133:
+
+	opcion_procedimiento1 : T_VALOR_MAXIMO_FACTOR_RIDGING numero _	(122)
+
+	.	reduce 122
+
+state 134:
+
+	opcion_procedimiento1 : T_SALIDA arreglo_identificadores _	(123)
+
+	.	reduce 123
+
+state 135:
+
+	arreglo_identificadores : T_CORCHETE_APERTURA _ arreglo_identificadores1 T_CORCHETE_CLAUSURA
+
+	T_IDENTIFICADOR	shift 150
+	.	error
+
+	arreglo_identificadores1	goto 149
+
+state 136:
+
+	opcion_procedimiento1 : T_ARCHIVO_SALIDA T_LITERAL_CADENAS _	(124)
+
+	.	reduce 124
+
+state 137:
+
+	opcion_procedimiento1 : T_GENERAR_SALIDA_COMPACTA T_BOOLEAN _	(125)
+
+	.	reduce 125
+
+state 138:
+
+	opcion_procedimiento1 : T_MOSTRAR_SALIDA_CONSOLA T_BOOLEAN _	(126)
+
+	.	reduce 126
+
+state 139:
+
+	opcion_procedimiento1 : T_ARCHIVO_RESUMEN_VEROSIMILITUD T_LITERAL_CADENAS _	(127)
+
+	.	reduce 127
+
+state 140:
+
+	opcion_procedimiento1 : T_ARCHIVO_RESUMEN_BETA T_LITERAL_CADENAS _	(128)
+
+	.	reduce 128
+
+state 141:
+
+	opcion_procedimiento1 : T_ARCHIVO_RESUMEN_THETA T_LITERAL_CADENAS _	(129)
+
+	.	reduce 129
+
+state 142:
+
+	opcion_procedimiento1 : T_ARCHIVO_RESUMEN_ITERACION T_LITERAL_CADENAS _	(130)
+
+	.	reduce 130
+
+state 143:
+
+	modelo : T_MODELO T_LITERAL_CADENAS T_LLAVE_APERTURA variables_clasificacion variable_dependiente efectos_fijos efectos_aleatorios lista_opciones_modelo _ T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+	lista_opciones_modelo : lista_opciones_modelo _ opcion_modelo
+
+	T_LLAVE_CLAUSURA	shift 152
+	T_OPCION	shift 153
+	.	error
+
+	opcion_modelo	goto 151
+
+state 144:
+
+	efectos_aleatorios : T_EFECTOS_ALEATORIOS T_LLAVE_APERTURA _ lista_grupos_efectos_aleatorios efectos lista_opciones_efectos_aleatorios error1 T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+	lista_grupos_efectos_aleatorios : _	(52)
+
+	.	reduce 52
+
+	lista_grupos_efectos_aleatorios	goto 154
+
+state 145:
+
+	efectos_fijos : T_EFECTOS_FIJOS T_LLAVE_APERTURA efectos _ lista_opciones_efectos_fijos T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+	lista_opciones_efectos_fijos : _	(45)
+
+	.	reduce 45
+
+	lista_opciones_efectos_fijos	goto 155
+
+state 146:
+
+	efectos : T_EFECTOS _ lista_efectos T_PUNTO_Y_COMA
+
+	T_IDENTIFICADOR	shift 160
+	T_INTERCEPTO	shift 161
+	.	error
+
+	anidamiento	goto 156
+	cruzamiento	goto 157
+	efecto	goto 158
+	lista_efectos	goto 159
+
+state 147:
+
+	lista_filas_valores : lista_filas_valores fila_valores T_PUNTO_Y_COMA _	(15)
+
+	.	reduce 15
+
+state 148:
+
+	valores : T_VALORES T_LLAVE_APERTURA $$3 lista_filas_valores $$4 T_LLAVE_CLAUSURA _ T_PUNTO_Y_COMA
+
+	T_PUNTO_Y_COMA	shift 162
+	.	error
+
+state 149:
+
+	arreglo_identificadores : T_CORCHETE_APERTURA arreglo_identificadores1 _ T_CORCHETE_CLAUSURA
+	arreglo_identificadores1 : arreglo_identificadores1 _ T_COMA T_IDENTIFICADOR
+
+	T_CORCHETE_CLAUSURA	shift 163
+	T_COMA	shift 164
+	.	error
+
+state 150:
+
+	arreglo_identificadores1 : T_IDENTIFICADOR _	(29)
+
+	.	reduce 29
+
+state 151:
+
+	lista_opciones_modelo : lista_opciones_modelo opcion_modelo _	(96)
+
+	.	reduce 96
+
+state 152:
+
+	modelo : T_MODELO T_LITERAL_CADENAS T_LLAVE_APERTURA variables_clasificacion variable_dependiente efectos_fijos efectos_aleatorios lista_opciones_modelo T_LLAVE_CLAUSURA _ T_PUNTO_Y_COMA
+
+	T_PUNTO_Y_COMA	shift 165
+	.	error
+
+state 153:
+
+	opcion_modelo : T_OPCION _ opcion_modelo1 T_PUNTO_Y_COMA
+
+	T_PESO	shift 167
+	.	error
+
+	opcion_modelo1	goto 166
+
+state 154:
+
+	efectos_aleatorios : T_EFECTOS_ALEATORIOS T_LLAVE_APERTURA lista_grupos_efectos_aleatorios _ efectos lista_opciones_efectos_aleatorios error1 T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+	lista_grupos_efectos_aleatorios : lista_grupos_efectos_aleatorios _ grupo_efectos
+	efectos : _	(33)
+
+	T_EFECTOS	shift 146
+	T_GRUPO	shift 170
+	T_LLAVE_CLAUSURA	reduce 33
+	T_OPCION	reduce 33
+	T_ERROR	reduce 33
+	.	error
+
+	grupo_efectos	goto 168
+	efectos	goto 169
+
+state 155:
+
+	efectos_fijos : T_EFECTOS_FIJOS T_LLAVE_APERTURA efectos lista_opciones_efectos_fijos _ T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+	lista_opciones_efectos_fijos : lista_opciones_efectos_fijos _ opcion_efectos_fijos
+
+	T_LLAVE_CLAUSURA	shift 172
+	T_OPCION	shift 173
+	.	error
+
+	opcion_efectos_fijos	goto 171
+
+state 156:
+
+	efecto : anidamiento _	(39)
+
+	.	reduce 39
+
+state 157:
+
+	efecto : cruzamiento _	(38)
+	anidamiento : cruzamiento _ T_PARENTESIS_APERTURA lista_efectos_anidados T_PARENTESIS_CLAUSURA
+
+	T_PARENTESIS_APERTURA	shift 174
+	T_PUNTO_Y_COMA	reduce 38
+	T_IDENTIFICADOR	reduce 38
+	T_INTERCEPTO	reduce 38
+	.	error
+
+state 158:
+
+	lista_efectos : efecto _	(36)
+
+	.	reduce 36
+
+state 159:
+
+	efectos : T_EFECTOS lista_efectos _ T_PUNTO_Y_COMA
+	lista_efectos : lista_efectos _ efecto
+
+	T_PUNTO_Y_COMA	shift 176
+	T_IDENTIFICADOR	shift 160
+	T_INTERCEPTO	shift 161
+	.	error
+
+	anidamiento	goto 156
+	cruzamiento	goto 157
+	efecto	goto 175
+
+state 160:
+
+	cruzamiento : T_IDENTIFICADOR _ T_ASTERISCO cruzamiento
+	cruzamiento : T_IDENTIFICADOR _	(41)
+
+	T_ASTERISCO	shift 177
+	T_PARENTESIS_APERTURA	reduce 41
+	T_PUNTO_Y_COMA	reduce 41
+	T_IDENTIFICADOR	reduce 41
+	T_INTERCEPTO	reduce 41
+	.	error
+
+state 161:
+
+	efecto : T_INTERCEPTO _	(37)
+
+	.	reduce 37
+
+state 162:
+
+	valores : T_VALORES T_LLAVE_APERTURA $$3 lista_filas_valores $$4 T_LLAVE_CLAUSURA T_PUNTO_Y_COMA _	(14)
+
+	.	reduce 14
+
+state 163:
+
+	arreglo_identificadores : T_CORCHETE_APERTURA arreglo_identificadores1 T_CORCHETE_CLAUSURA _	(27)
+
+	.	reduce 27
+
+state 164:
+
+	arreglo_identificadores1 : arreglo_identificadores1 T_COMA _ T_IDENTIFICADOR
+
+	T_IDENTIFICADOR	shift 178
+	.	error
+
+state 165:
+
+	modelo : T_MODELO T_LITERAL_CADENAS T_LLAVE_APERTURA variables_clasificacion variable_dependiente efectos_fijos efectos_aleatorios lista_opciones_modelo T_LLAVE_CLAUSURA T_PUNTO_Y_COMA _	(22)
+
+	.	reduce 22
+
+state 166:
+
+	opcion_modelo : T_OPCION opcion_modelo1 _ T_PUNTO_Y_COMA
+
+	T_PUNTO_Y_COMA	shift 179
+	.	error
+
+state 167:
+
+	opcion_modelo1 : T_PESO _ T_IDENTIFICADOR
+
+	T_IDENTIFICADOR	shift 180
+	.	error
+
+state 168:
+
+	lista_grupos_efectos_aleatorios : lista_grupos_efectos_aleatorios grupo_efectos _	(53)
+
+	.	reduce 53
+
+state 169:
+
+	efectos_aleatorios : T_EFECTOS_ALEATORIOS T_LLAVE_APERTURA lista_grupos_efectos_aleatorios efectos _ lista_opciones_efectos_aleatorios error1 T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+	lista_opciones_efectos_aleatorios : _	(55)
+
+	.	reduce 55
+
+	lista_opciones_efectos_aleatorios	goto 181
+
+state 170:
+
+	grupo_efectos : T_GRUPO _ T_LLAVE_APERTURA efectos lista_opciones_efectos_aleatorios T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+
+	T_LLAVE_APERTURA	shift 182
+	.	error
+
+state 171:
+
+	lista_opciones_efectos_fijos : lista_opciones_efectos_fijos opcion_efectos_fijos _	(46)
+
+	.	reduce 46
+
+state 172:
+
+	efectos_fijos : T_EFECTOS_FIJOS T_LLAVE_APERTURA efectos lista_opciones_efectos_fijos T_LLAVE_CLAUSURA _ T_PUNTO_Y_COMA
+
+	T_PUNTO_Y_COMA	shift 183
+	.	error
+
+state 173:
+
+	opcion_efectos_fijos : T_OPCION _ opcion_efectos_fijos1 T_PUNTO_Y_COMA
+
+	T_GENERAR_COLUMNAS_NULAS	shift 185
+	T_INCLUIR_INTERCEPTO	shift 186
+	.	error
+
+	opcion_efectos_fijos1	goto 184
+
+state 174:
+
+	anidamiento : cruzamiento T_PARENTESIS_APERTURA _ lista_efectos_anidados T_PARENTESIS_CLAUSURA
+
+	T_IDENTIFICADOR	shift 188
+	.	error
+
+	lista_efectos_anidados	goto 187
+
+state 175:
+
+	lista_efectos : lista_efectos efecto _	(35)
+
+	.	reduce 35
+
+state 176:
+
+	efectos : T_EFECTOS lista_efectos T_PUNTO_Y_COMA _	(34)
+
+	.	reduce 34
+
+state 177:
+
+	cruzamiento : T_IDENTIFICADOR T_ASTERISCO _ cruzamiento
+
+	T_IDENTIFICADOR	shift 160
+	.	error
+
+	cruzamiento	goto 189
+
+state 178:
+
+	arreglo_identificadores1 : arreglo_identificadores1 T_COMA T_IDENTIFICADOR _	(28)
+
+	.	reduce 28
+
+state 179:
+
+	opcion_modelo : T_OPCION opcion_modelo1 T_PUNTO_Y_COMA _	(97)
+
+	.	reduce 97
+
+state 180:
+
+	opcion_modelo1 : T_PESO T_IDENTIFICADOR _	(98)
+
+	.	reduce 98
+
+state 181:
+
+	efectos_aleatorios : T_EFECTOS_ALEATORIOS T_LLAVE_APERTURA lista_grupos_efectos_aleatorios efectos lista_opciones_efectos_aleatorios _ error1 T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+	lista_opciones_efectos_aleatorios : lista_opciones_efectos_aleatorios _ opcion_efectos_aleatorios
+	error1 : _	(85)
+
+	T_OPCION	shift 192
+	T_ERROR	shift 193
+	T_LLAVE_CLAUSURA	reduce 85
+	.	error
+
+	error1	goto 190
+	opcion_efectos_aleatorios	goto 191
+
+state 182:
+
+	grupo_efectos : T_GRUPO T_LLAVE_APERTURA _ efectos lista_opciones_efectos_aleatorios T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+	efectos : _	(33)
+
+	T_EFECTOS	shift 146
+	T_LLAVE_CLAUSURA	reduce 33
+	T_OPCION	reduce 33
+	.	error
+
+	efectos	goto 194
+
+state 183:
+
+	efectos_fijos : T_EFECTOS_FIJOS T_LLAVE_APERTURA efectos lista_opciones_efectos_fijos T_LLAVE_CLAUSURA T_PUNTO_Y_COMA _	(32)
+
+	.	reduce 32
+
+state 184:
+
+	opcion_efectos_fijos : T_OPCION opcion_efectos_fijos1 _ T_PUNTO_Y_COMA
+
+	T_PUNTO_Y_COMA	shift 195
+	.	error
+
+state 185:
+
+	opcion_efectos_fijos1 : T_GENERAR_COLUMNAS_NULAS _ T_BOOLEAN
+
+	T_BOOLEAN	shift 196
+	.	error
+
+state 186:
+
+	opcion_efectos_fijos1 : T_INCLUIR_INTERCEPTO _ T_BOOLEAN
+
+	T_BOOLEAN	shift 197
+	.	error
+
+state 187:
+
+	anidamiento : cruzamiento T_PARENTESIS_APERTURA lista_efectos_anidados _ T_PARENTESIS_CLAUSURA
+	lista_efectos_anidados : lista_efectos_anidados _ T_IDENTIFICADOR
+
+	T_PARENTESIS_CLAUSURA	shift 198
+	T_IDENTIFICADOR	shift 199
+	.	error
+
+state 188:
+
+	lista_efectos_anidados : T_IDENTIFICADOR _	(44)
+
+	.	reduce 44
+
+state 189:
+
+	cruzamiento : T_IDENTIFICADOR T_ASTERISCO cruzamiento _	(40)
+
+	.	reduce 40
+
+state 190:
+
+	efectos_aleatorios : T_EFECTOS_ALEATORIOS T_LLAVE_APERTURA lista_grupos_efectos_aleatorios efectos lista_opciones_efectos_aleatorios error1 _ T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+
+	T_LLAVE_CLAUSURA	shift 200
+	.	error
+
+state 191:
+
+	lista_opciones_efectos_aleatorios : lista_opciones_efectos_aleatorios opcion_efectos_aleatorios _	(56)
+
+	.	reduce 56
+
+state 192:
+
+	opcion_efectos_aleatorios : T_OPCION _ opcion_efectos_aleatorios1 T_PUNTO_Y_COMA
+
+	T_GENERAR_COLUMNAS_NULAS	shift 202
+	T_INCLUIR_INTERCEPTO	shift 203
+	T_CRITERIO_AGRUPAMIENTO_UNIDAD_EXPERIMENTAL	shift 204
+	T_UNIDAD_EXPERIMENTAL	shift 205
+	T_ESTRUCTURA	shift 206
+	T_PARAMETROS	shift 207
+	.	error
+
+	opcion_efectos_aleatorios1	goto 201
+
+state 193:
+
+	error1 : T_ERROR _ T_LLAVE_APERTURA lista_opciones_error T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+
+	T_LLAVE_APERTURA	shift 208
+	.	error
+
+state 194:
+
+	grupo_efectos : T_GRUPO T_LLAVE_APERTURA efectos _ lista_opciones_efectos_aleatorios T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+	lista_opciones_efectos_aleatorios : _	(55)
+
+	.	reduce 55
+
+	lista_opciones_efectos_aleatorios	goto 209
+
+state 195:
+
+	opcion_efectos_fijos : T_OPCION opcion_efectos_fijos1 T_PUNTO_Y_COMA _	(47)
+
+	.	reduce 47
+
+state 196:
+
+	opcion_efectos_fijos1 : T_GENERAR_COLUMNAS_NULAS T_BOOLEAN _	(48)
+
+	.	reduce 48
+
+state 197:
+
+	opcion_efectos_fijos1 : T_INCLUIR_INTERCEPTO T_BOOLEAN _	(49)
+
+	.	reduce 49
+
+state 198:
+
+	anidamiento : cruzamiento T_PARENTESIS_APERTURA lista_efectos_anidados T_PARENTESIS_CLAUSURA _	(42)
+
+	.	reduce 42
+
+state 199:
+
+	lista_efectos_anidados : lista_efectos_anidados T_IDENTIFICADOR _	(43)
+
+	.	reduce 43
+
+state 200:
+
+	efectos_aleatorios : T_EFECTOS_ALEATORIOS T_LLAVE_APERTURA lista_grupos_efectos_aleatorios efectos lista_opciones_efectos_aleatorios error1 T_LLAVE_CLAUSURA _ T_PUNTO_Y_COMA
+
+	T_PUNTO_Y_COMA	shift 210
+	.	error
+
+state 201:
+
+	opcion_efectos_aleatorios : T_OPCION opcion_efectos_aleatorios1 _ T_PUNTO_Y_COMA
+
+	T_PUNTO_Y_COMA	shift 211
+	.	error
+
+state 202:
+
+	opcion_efectos_aleatorios1 : T_GENERAR_COLUMNAS_NULAS _ T_BOOLEAN
+
+	T_BOOLEAN	shift 212
+	.	error
+
+state 203:
+
+	opcion_efectos_aleatorios1 : T_INCLUIR_INTERCEPTO _ T_BOOLEAN
+
+	T_BOOLEAN	shift 213
+	.	error
+
+state 204:
+
+	opcion_efectos_aleatorios1 : T_CRITERIO_AGRUPAMIENTO_UNIDAD_EXPERIMENTAL _ efecto
+
+	T_IDENTIFICADOR	shift 160
+	T_INTERCEPTO	shift 161
+	.	error
+
+	anidamiento	goto 156
+	cruzamiento	goto 157
+	efecto	goto 214
+
+state 205:
+
+	opcion_efectos_aleatorios1 : T_UNIDAD_EXPERIMENTAL _ efecto
+
+	T_IDENTIFICADOR	shift 160
+	T_INTERCEPTO	shift 161
+	.	error
+
+	anidamiento	goto 156
+	cruzamiento	goto 157
+	efecto	goto 215
+
+state 206:
+
+	opcion_efectos_aleatorios1 : T_ESTRUCTURA _ estructura
+
+	T_SIMETRIA_COMPUESTA	shift 217
+	T_COMPONENTES_VARIANZA	shift 218
+	T_GENERAL	shift 219
+	T_DIAGONAL_HETEROGENEA	shift 220
+	T_FACTOR_ANALYTIC	shift 221
+	T_FACTOR_ANALYTIC_SIN_DIAGONAL	shift 222
+	T_FACTOR_ANALYTIC_DIAGONAL_ESCALAR	shift 223
+	T_BANDEADA	shift 224
+	T_AUTOREGRESIVA	shift 225
+	.	error
+
+	estructura	goto 216
+
+state 207:
+
+	opcion_efectos_aleatorios1 : T_PARAMETROS _ lista_parametros
+
+	T_PARENTESIS_APERTURA	shift 229
+	T_ENTERO	shift 101
+	T_REAL	shift 102
+	.	error
+
+	numero	goto 226
+	informacion_parametro_indice	goto 227
+	lista_parametros	goto 228
+
+state 208:
+
+	error1 : T_ERROR T_LLAVE_APERTURA _ lista_opciones_error T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+	lista_opciones_error : _	(87)
+
+	.	reduce 87
+
+	lista_opciones_error	goto 230
+
+state 209:
+
+	grupo_efectos : T_GRUPO T_LLAVE_APERTURA efectos lista_opciones_efectos_aleatorios _ T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+	lista_opciones_efectos_aleatorios : lista_opciones_efectos_aleatorios _ opcion_efectos_aleatorios
+
+	T_LLAVE_CLAUSURA	shift 231
+	T_OPCION	shift 192
+	.	error
+
+	opcion_efectos_aleatorios	goto 191
+
+state 210:
+
+	efectos_aleatorios : T_EFECTOS_ALEATORIOS T_LLAVE_APERTURA lista_grupos_efectos_aleatorios efectos lista_opciones_efectos_aleatorios error1 T_LLAVE_CLAUSURA T_PUNTO_Y_COMA _	(51)
+
+	.	reduce 51
+
+state 211:
+
+	opcion_efectos_aleatorios : T_OPCION opcion_efectos_aleatorios1 T_PUNTO_Y_COMA _	(57)
+
+	.	reduce 57
+
+state 212:
+
+	opcion_efectos_aleatorios1 : T_GENERAR_COLUMNAS_NULAS T_BOOLEAN _	(58)
+
+	.	reduce 58
+
+state 213:
+
+	opcion_efectos_aleatorios1 : T_INCLUIR_INTERCEPTO T_BOOLEAN _	(59)
+
+	.	reduce 59
+
+state 214:
+
+	opcion_efectos_aleatorios1 : T_CRITERIO_AGRUPAMIENTO_UNIDAD_EXPERIMENTAL efecto _	(60)
+
+	.	reduce 60
+
+state 215:
+
+	opcion_efectos_aleatorios1 : T_UNIDAD_EXPERIMENTAL efecto _	(61)
+
+	.	reduce 61
+
+state 216:
+
+	opcion_efectos_aleatorios1 : T_ESTRUCTURA estructura _	(62)
+
+	.	reduce 62
+
+state 217:
+
+	estructura : T_SIMETRIA_COMPUESTA _	(64)
+
+	.	reduce 64
+
+state 218:
+
+	estructura : T_COMPONENTES_VARIANZA _	(65)
+
+	.	reduce 65
+
+state 219:
+
+	estructura : T_GENERAL _	(66)
+
+	.	reduce 66
+
+state 220:
+
+	estructura : T_DIAGONAL_HETEROGENEA _	(67)
+
+	.	reduce 67
+
+state 221:
+
+	estructura : T_FACTOR_ANALYTIC _ orden
+	orden : _	(73)
+
+	T_PARENTESIS_APERTURA	shift 233
+	T_PUNTO_Y_COMA	reduce 73
+	.	error
+
+	orden	goto 232
+
+state 222:
+
+	estructura : T_FACTOR_ANALYTIC_SIN_DIAGONAL _ orden
+	orden : _	(73)
+
+	T_PARENTESIS_APERTURA	shift 233
+	T_PUNTO_Y_COMA	reduce 73
+	.	error
+
+	orden	goto 234
+
+state 223:
+
+	estructura : T_FACTOR_ANALYTIC_DIAGONAL_ESCALAR _ orden
+	orden : _	(73)
+
+	T_PARENTESIS_APERTURA	shift 233
+	T_PUNTO_Y_COMA	reduce 73
+	.	error
+
+	orden	goto 235
+
+state 224:
+
+	estructura : T_BANDEADA _ orden
+	orden : _	(73)
+
+	T_PARENTESIS_APERTURA	shift 233
+	T_PUNTO_Y_COMA	reduce 73
+	.	error
+
+	orden	goto 236
+
+state 225:
+
+	estructura : T_AUTOREGRESIVA _	(68)
+
+	.	reduce 68
+
+state 226:
+
+	informacion_parametro_indice : numero _	(77)
+
+	.	reduce 77
+
+state 227:
+
+	lista_parametros : informacion_parametro_indice _	(76)
+
+	.	reduce 76
+
+state 228:
+
+	opcion_efectos_aleatorios1 : T_PARAMETROS lista_parametros _	(63)
+	lista_parametros : lista_parametros _ informacion_parametro_indice
+
+	T_PARENTESIS_APERTURA	shift 229
+	T_ENTERO	shift 101
+	T_REAL	shift 102
+	T_PUNTO_Y_COMA	reduce 63
+	.	error
+
+	numero	goto 226
+	informacion_parametro_indice	goto 237
+
+state 229:
+
+	informacion_parametro_indice : T_PARENTESIS_APERTURA _ informacion_parametro_componente_entero T_COMA informacion_parametro_componente_string T_COMA informacion_parametro_componente_real T_COMA informacion_parametro_componente_real T_COMA informacion_para
+	informacion_parametro_componente_entero : _	(79)
+
+	T_ENTERO	shift 239
+	T_COMA	reduce 79
+	.	error
+
+	informacion_parametro_componente_entero	goto 238
+
+state 230:
+
+	error1 : T_ERROR T_LLAVE_APERTURA lista_opciones_error _ T_LLAVE_CLAUSURA T_PUNTO_Y_COMA
+	lista_opciones_error : lista_opciones_error _ opcion_error
+
+	T_LLAVE_CLAUSURA	shift 241
+	T_OPCION	shift 242
+	.	error
+
+	opcion_error	goto 240
+
+state 231:
+
+	grupo_efectos : T_GRUPO T_LLAVE_APERTURA efectos lista_opciones_efectos_aleatorios T_LLAVE_CLAUSURA _ T_PUNTO_Y_COMA
+
+	T_PUNTO_Y_COMA	shift 243
+	.	error
+
+state 232:
+
+	estructura : T_FACTOR_ANALYTIC orden _	(69)
+
+	.	reduce 69
+
+state 233:
+
+	orden : T_PARENTESIS_APERTURA _ T_ENTERO T_PARENTESIS_CLAUSURA
+
+	T_ENTERO	shift 244
+	.	error
+
+state 234:
+
+	estructura : T_FACTOR_ANALYTIC_SIN_DIAGONAL orden _	(70)
+
+	.	reduce 70
+
+state 235:
+
+	estructura : T_FACTOR_ANALYTIC_DIAGONAL_ESCALAR orden _	(71)
+
+	.	reduce 71
+
+state 236:
+
+	estructura : T_BANDEADA orden _	(72)
+
+	.	reduce 72
+
+state 237:
+
+	lista_parametros : lista_parametros informacion_parametro_indice _	(75)
+
+	.	reduce 75
+
+state 238:
+
+	informacion_parametro_indice : T_PARENTESIS_APERTURA informacion_parametro_componente_entero _ T_COMA informacion_parametro_componente_string T_COMA informacion_parametro_componente_real T_COMA informacion_parametro_componente_real T_COMA informacion_para
+
+	T_COMA	shift 245
+	.	error
+
+state 239:
+
+	informacion_parametro_componente_entero : T_ENTERO _	(80)
+
+	.	reduce 80
+
+state 240:
+
+	lista_opciones_error : lista_opciones_error opcion_error _	(88)
+
+	.	reduce 88
+
+state 241:
+
+	error1 : T_ERROR T_LLAVE_APERTURA lista_opciones_error T_LLAVE_CLAUSURA _ T_PUNTO_Y_COMA
+
+	T_PUNTO_Y_COMA	shift 246
+	.	error
+
+state 242:
+
+	opcion_error : T_OPCION _ opcion_error1 T_PUNTO_Y_COMA
+
+	T_CRITERIO_AGRUPAMIENTO_UNIDAD_EXPERIMENTAL	shift 248
+	T_UNIDAD_EXPERIMENTAL	shift 249
+	T_ESTRUCTURA	shift 250
+	T_PARAMETROS	shift 251
+	T_CRITERIO_ORDENAMIENTO	shift 252
+	.	error
+
+	opcion_error1	goto 247
+
+state 243:
+
+	grupo_efectos : T_GRUPO T_LLAVE_APERTURA efectos lista_opciones_efectos_aleatorios T_LLAVE_CLAUSURA T_PUNTO_Y_COMA _	(54)
+
+	.	reduce 54
+
+state 244:
+
+	orden : T_PARENTESIS_APERTURA T_ENTERO _ T_PARENTESIS_CLAUSURA
+
+	T_PARENTESIS_CLAUSURA	shift 253
+	.	error
+
+state 245:
+
+	informacion_parametro_indice : T_PARENTESIS_APERTURA informacion_parametro_componente_entero T_COMA _ informacion_parametro_componente_string T_COMA informacion_parametro_componente_real T_COMA informacion_parametro_componente_real T_COMA informacion_para
+	informacion_parametro_componente_string : _	(81)
+
+	T_IDENTIFICADOR	shift 255
+	T_COMA	reduce 81
+	.	error
+
+	informacion_parametro_componente_string	goto 254
+
+state 246:
+
+	error1 : T_ERROR T_LLAVE_APERTURA lista_opciones_error T_LLAVE_CLAUSURA T_PUNTO_Y_COMA _	(86)
+
+	.	reduce 86
+
+state 247:
+
+	opcion_error : T_OPCION opcion_error1 _ T_PUNTO_Y_COMA
+
+	T_PUNTO_Y_COMA	shift 256
+	.	error
+
+state 248:
+
+	opcion_error1 : T_CRITERIO_AGRUPAMIENTO_UNIDAD_EXPERIMENTAL _ efecto
+
+	T_IDENTIFICADOR	shift 160
+	T_INTERCEPTO	shift 161
+	.	error
+
+	anidamiento	goto 156
+	cruzamiento	goto 157
+	efecto	goto 257
+
+state 249:
+
+	opcion_error1 : T_UNIDAD_EXPERIMENTAL _ efecto
+
+	T_IDENTIFICADOR	shift 160
+	T_INTERCEPTO	shift 161
+	.	error
+
+	anidamiento	goto 156
+	cruzamiento	goto 157
+	efecto	goto 258
+
+state 250:
+
+	opcion_error1 : T_ESTRUCTURA _ estructura
+
+	T_SIMETRIA_COMPUESTA	shift 217
+	T_COMPONENTES_VARIANZA	shift 218
+	T_GENERAL	shift 219
+	T_DIAGONAL_HETEROGENEA	shift 220
+	T_FACTOR_ANALYTIC	shift 221
+	T_FACTOR_ANALYTIC_SIN_DIAGONAL	shift 222
+	T_FACTOR_ANALYTIC_DIAGONAL_ESCALAR	shift 223
+	T_BANDEADA	shift 224
+	T_AUTOREGRESIVA	shift 225
+	.	error
+
+	estructura	goto 259
+
+state 251:
+
+	opcion_error1 : T_PARAMETROS _ lista_parametros
+
+	T_PARENTESIS_APERTURA	shift 229
+	T_ENTERO	shift 101
+	T_REAL	shift 102
+	.	error
+
+	numero	goto 226
+	informacion_parametro_indice	goto 227
+	lista_parametros	goto 260
+
+state 252:
+
+	opcion_error1 : T_CRITERIO_ORDENAMIENTO _ efecto
+
+	T_IDENTIFICADOR	shift 160
+	T_INTERCEPTO	shift 161
+	.	error
+
+	anidamiento	goto 156
+	cruzamiento	goto 157
+	efecto	goto 261
+
+state 253:
+
+	orden : T_PARENTESIS_APERTURA T_ENTERO T_PARENTESIS_CLAUSURA _	(74)
+
+	.	reduce 74
+
+state 254:
+
+	informacion_parametro_indice : T_PARENTESIS_APERTURA informacion_parametro_componente_entero T_COMA informacion_parametro_componente_string _ T_COMA informacion_parametro_componente_real T_COMA informacion_parametro_componente_real T_COMA informacion_para
+
+	T_COMA	shift 262
+	.	error
+
+state 255:
+
+	informacion_parametro_componente_string : T_IDENTIFICADOR _	(82)
+
+	.	reduce 82
+
+state 256:
+
+	opcion_error : T_OPCION opcion_error1 T_PUNTO_Y_COMA _	(89)
+
+	.	reduce 89
+
+state 257:
+
+	opcion_error1 : T_CRITERIO_AGRUPAMIENTO_UNIDAD_EXPERIMENTAL efecto _	(91)
+
+	.	reduce 91
+
+state 258:
+
+	opcion_error1 : T_UNIDAD_EXPERIMENTAL efecto _	(92)
+
+	.	reduce 92
+
+state 259:
+
+	opcion_error1 : T_ESTRUCTURA estructura _	(93)
+
+	.	reduce 93
+
+state 260:
+
+	opcion_error1 : T_PARAMETROS lista_parametros _	(94)
+	lista_parametros : lista_parametros _ informacion_parametro_indice
+
+	T_PARENTESIS_APERTURA	shift 229
+	T_ENTERO	shift 101
+	T_REAL	shift 102
+	T_PUNTO_Y_COMA	reduce 94
+	.	error
+
+	numero	goto 226
+	informacion_parametro_indice	goto 237
+
+state 261:
+
+	opcion_error1 : T_CRITERIO_ORDENAMIENTO efecto _	(90)
+
+	.	reduce 90
+
+state 262:
+
+	informacion_parametro_indice : T_PARENTESIS_APERTURA informacion_parametro_componente_entero T_COMA informacion_parametro_componente_string T_COMA _ informacion_parametro_componente_real T_COMA informacion_parametro_componente_real T_COMA informacion_para
+	informacion_parametro_componente_real : _	(83)
+
+	T_ENTERO	shift 101
+	T_REAL	shift 102
+	T_COMA	reduce 83
+	.	error
+
+	numero	goto 263
+	informacion_parametro_componente_real	goto 264
+
+state 263:
+
+	informacion_parametro_componente_real : numero _	(84)
+
+	.	reduce 84
+
+state 264:
+
+	informacion_parametro_indice : T_PARENTESIS_APERTURA informacion_parametro_componente_entero T_COMA informacion_parametro_componente_string T_COMA informacion_parametro_componente_real _ T_COMA informacion_parametro_componente_real T_COMA informacion_para
+
+	T_COMA	shift 265
+	.	error
+
+state 265:
+
+	informacion_parametro_indice : T_PARENTESIS_APERTURA informacion_parametro_componente_entero T_COMA informacion_parametro_componente_string T_COMA informacion_parametro_componente_real T_COMA _ informacion_parametro_componente_real T_COMA informacion_para
+	informacion_parametro_componente_real : _	(83)
+
+	T_ENTERO	shift 101
+	T_REAL	shift 102
+	T_COMA	reduce 83
+	.	error
+
+	numero	goto 263
+	informacion_parametro_componente_real	goto 266
+
+state 266:
+
+	informacion_parametro_indice : T_PARENTESIS_APERTURA informacion_parametro_componente_entero T_COMA informacion_parametro_componente_string T_COMA informacion_parametro_componente_real T_COMA informacion_parametro_componente_real _ T_COMA informacion_para
+
+	T_COMA	shift 267
+	.	error
+
+state 267:
+
+	informacion_parametro_indice : T_PARENTESIS_APERTURA informacion_parametro_componente_entero T_COMA informacion_parametro_componente_string T_COMA informacion_parametro_componente_real T_COMA informacion_parametro_componente_real T_COMA _ informacion_para
+	informacion_parametro_componente_real : _	(83)
+
+	T_ENTERO	shift 101
+	T_REAL	shift 102
+	T_COMA	reduce 83
+	.	error
+
+	numero	goto 263
+	informacion_parametro_componente_real	goto 268
+
+state 268:
+
+	informacion_parametro_indice : T_PARENTESIS_APERTURA informacion_parametro_componente_entero T_COMA informacion_parametro_componente_string T_COMA informacion_parametro_componente_real T_COMA informacion_parametro_componente_real T_COMA informacion_parame
+
+	T_COMA	shift 269
+	.	error
+
+state 269:
+
+	informacion_parametro_indice : T_PARENTESIS_APERTURA informacion_parametro_componente_entero T_COMA informacion_parametro_componente_string T_COMA informacion_parametro_componente_real T_COMA informacion_parametro_componente_real T_COMA informacion_parame
+	informacion_parametro_componente_real : _	(83)
+
+	T_ENTERO	shift 101
+	T_REAL	shift 102
+	T_PARENTESIS_CLAUSURA	reduce 83
+	.	error
+
+	numero	goto 263
+	informacion_parametro_componente_real	goto 270
+
+state 270:
+
+	informacion_parametro_indice : T_PARENTESIS_APERTURA informacion_parametro_componente_entero T_COMA informacion_parametro_componente_string T_COMA informacion_parametro_componente_real T_COMA informacion_parametro_componente_real T_COMA informacion_parame
+
+	T_PARENTESIS_CLAUSURA	shift 271
+	.	error
+
+state 271:
+
+	informacion_parametro_indice : T_PARENTESIS_APERTURA informacion_parametro_componente_entero T_COMA informacion_parametro_componente_string T_COMA informacion_parametro_componente_real T_COMA informacion_parametro_componente_real T_COMA informacion_parame	(78)
+
+	.	reduce 78
+
